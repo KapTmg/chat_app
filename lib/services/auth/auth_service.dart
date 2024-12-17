@@ -20,6 +20,13 @@ class AuthService {
         password: password,
       );
 
+      _firestore.collection("Users").doc(userCredential.user!.uid).set(
+        {
+          'uid': userCredential.user!.uid,
+          'email': email,
+        },
+      );
+
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);

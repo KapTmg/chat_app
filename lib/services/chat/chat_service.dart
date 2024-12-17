@@ -26,7 +26,7 @@ class ChatService {
   }
 
   //send message
-  Future<void> sendMessage(String receiverID, message) async {
+  Future<void> sendMessage(String receiverID, message) async { 
     //get current user info
     final String currentUserID = _auth.currentUser!.uid;
     final String currentUserEmail = _auth.currentUser!.email!;
@@ -44,7 +44,7 @@ class ChatService {
     //construct chat room ID for the two users (sorted to ensure uniqueness)
     List<String> ids = [currentUserID, receiverID];
     ids.sort(); //sort the ids (this ensure the chatroomID is the same for any 2 people)
-    String chatRoomID = ids.join("_");
+    String chatRoomID = ids.join('_');
 
     //add new message to database
     await _firestore
@@ -59,11 +59,11 @@ class ChatService {
     //construct a chatroom ID for the two users
     List<String> ids = [userID, otherUserID];
     ids.sort();
-    String chatRoomID = ids.join('-');
+    String chatRoomID = ids.join('_');
     return _firestore
         .collection("chat_rooms")
         .doc(chatRoomID)
-        .collection("messsages")
+        .collection("messages")
         .orderBy("timestamp", descending: false)
         .snapshots();
   }

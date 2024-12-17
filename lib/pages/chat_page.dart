@@ -14,7 +14,7 @@ class ChatPage extends StatelessWidget {
 
   final TextEditingController _messageController = TextEditingController();
 
-  //chat and auth service
+  //chat and auth service initialized
 
   final ChatService _chatService = ChatService();
   final AuthService _authService = AuthService();
@@ -89,7 +89,7 @@ class ChatPage extends StatelessWidget {
     return Container(
       alignment: alignment,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: isCurrentUser? CrossAxisAlignment.end:CrossAxisAlignment.start,
         children: [
           ChatBubble(message: data['message'], isCurrentUser: isCurrentUser)
         ],
@@ -99,28 +99,37 @@ class ChatPage extends StatelessWidget {
 
   //build message input
   Widget _buildUserInput() {
-    return Row(
-      children: [
-        //textfield should take up most of the space
-        Expanded(
-          child: MyTextField(
-              controller: _messageController,
-              hintText: "Type a message",
-              obsecureText: false),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Row(
+        children: [
+          //textfield should take up most of the space
+          Expanded(
+            
+            child: Padding(
+              padding: const EdgeInsets.only(left:8.0),
+              child: MyTextField(
+                controller: _messageController,
+                hintText: "Type a message",
+                obsecureText: false,
+              ),
+            ),
+          ),
 
-        //send message
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.green,
-            shape: BoxShape.circle
-          ),
-          child: IconButton(
-            onPressed: sendMessage,
-            icon: const Icon(Icons.arrow_upward),
-          ),
-        )
-      ],
+          const SizedBox(width: 6,),
+      
+          //send message
+          Container(
+            
+            decoration:
+                const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+            child: IconButton(
+              onPressed: sendMessage,
+              icon: const Icon(Icons.arrow_upward),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
